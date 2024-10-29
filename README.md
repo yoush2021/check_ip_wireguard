@@ -13,3 +13,5 @@
     8. */5 * * * * /bin/bash /opt/shell/check_ip_wireguard.sh >> ~/.log/wg_check.log 
     9. 添加第8条每5分钟执行的命令，然后保存。
 ```
+
+

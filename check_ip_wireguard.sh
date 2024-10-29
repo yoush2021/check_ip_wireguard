@@ -44,7 +44,7 @@ function CheckIp (){
 			Inet6="$(ip a | grep 'inet6' | grep '240' | cut -d '/' -f1 | cut -d ' ' -f6 | awk NR=="$i"'{print $1}' )"
 		
 			if [[ "$Domaindns6" == "$Inet6" ]];then
-				echo $time"   IPV6 解析无变化"	
+				echo $time "   IPV6 解析无变化"	
 				DnsStatus=1
 				break
 			fi
