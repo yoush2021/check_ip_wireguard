@@ -7,7 +7,7 @@ DomainVersion=6
 # IP数量
 Address4="$(ip a | grep 'inet' | grep -v 'inet6' | cut -d ' ' -f6 | cut -d '/' -f1 | wc -l )"
 Address6="$(ip a | grep 'inet6' | grep '24' | cut -d ' ' -f6 | cut -d '/' -f1 | wc -l)"
-
+time=$( date )
 
 function DomainDNS (){
 	# 检查工具否则安装
@@ -32,7 +32,7 @@ function CheckIp (){
 		do
 			Inet4="$(ip a | grep 'inet' | grep -v 'inet6' | cut -d ' ' -f6 | cut -d '/' -f1 | awk NR=="$i"'{print $1}' )"
 			if [[ "$Domaindns4" == "$Inet4" ]];then
-				echo "IPV4 解析无变化"
+				echo $time "   IPV4 解析无变化"
 				DnsStatus=1
 			fi
 		done
@@ -44,7 +44,7 @@ function CheckIp (){
 			Inet6="$(ip a | grep 'inet6' | grep '240' | cut -d '/' -f1 | cut -d ' ' -f6 | awk NR=="$i"'{print $1}' )"
 		
 			if [[ "$Domaindns6" == "$Inet6" ]];then
-				echo "IPV6 解析无变化"	
+				echo $time"   IPV6 解析无变化"	
 				DnsStatus=1
 				break
 			fi
@@ -54,7 +54,7 @@ function CheckIp (){
 		# 重启wireguard
 		wg-quick down wg0
 		wg-quick up wg0
-		echo "wg 重启完成！"
+		echo $time "   wg 重启完成！"
 
 	fi
 		
