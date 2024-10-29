@@ -53,8 +53,9 @@ function CheckIp (){
 	if [[ "$DnsStatus" -eq 0 ]];then
 		# 重启wireguard
 		wg-quick down wg0
+		echo $time "   wg 服务停止！"
 		wg-quick up wg0
-		echo $time "   wg 重启完成！"
+		echo $time "   wg 服务启动！"
 
 	fi
 		
