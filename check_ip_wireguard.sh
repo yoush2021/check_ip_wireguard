@@ -2,7 +2,7 @@
 
 # 域名解析获取
 Domain="ddns.domain.com"
-# 域名版本 4 或者6
+# 协议版本 4 或者6
 DomainVersion=6
 # IP数量
 Address4="$(ip a | grep 'inet' | grep -v 'inet6' | cut -d ' ' -f6 | cut -d '/' -f1 | wc -l )"
