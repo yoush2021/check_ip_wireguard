@@ -26,7 +26,6 @@ function DomainDNS (){
 }
 function CheckIp (){
 	DnsStatus=0
-	I=$Domaindns4
 	# 协议版本4
 	if [[ $DomainVersion == 4 ]];then
 		for (( i=1; i<=$Address4; i++ ))
@@ -51,7 +50,6 @@ function CheckIp (){
 			fi
 		done
 	fi
-	echo $Inet4
 	if [[ "$DnsStatus" -eq 0 ]];then
 		# 重启wireguard
 		wg-quick down wg0
