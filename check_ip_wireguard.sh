@@ -44,7 +44,7 @@ function CheckIp (){
 			Inet6="$(ip a | grep 'inet6' | grep '240' | cut -d '/' -f1 | cut -d ' ' -f6 | awk NR=="$i"'{print $1}' )"
 		
 			if [[ "$Domaindns6" == "$Inet6" ]];then
-				echo "解析无变化"	
+				echo "IPV6 解析无变化"	
 				DnsStatus=1
 				break
 			fi
@@ -54,6 +54,7 @@ function CheckIp (){
 		# 重启wireguard
 		wg-quick down wg0
 		wg-quick up wg0
+		echo "wg 重启完成！"
 
 	fi
 		
