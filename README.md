@@ -1,0 +1,2 @@
+# check_ip_wireguard
+一个支持ipv4和ipv6的wireguard服务检查脚本
