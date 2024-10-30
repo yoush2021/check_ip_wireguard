@@ -1,7 +1,7 @@
 #/bin/bash
 
 # 域名解析获取
-Domain="ddns.domain.com"
+Domain="bj6_jq.yoush.cc"
 # 协议版本 4 或者6
 DomainVersion=6
 # wireguard 网卡名称（一般是wireguard配置文件名）
@@ -52,7 +52,7 @@ function CheckIp (){
 			fi
 		done
 	fi
-	if [[ "$DnsStatus" -eq 0 ]];then
+	if [[ "$dns_status" -eq 0 ]];then
 		# 重启wireguard
 		systemctl restart --force wg-quick@"$NetCard".service
 		echo $time "   wg 服务重新启动中..."
