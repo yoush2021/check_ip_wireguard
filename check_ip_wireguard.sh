@@ -47,8 +47,10 @@ function CheckIp (){
 		
 			if [[ "$Domaindns6" == "$Inet6" ]];then
 				echo $time "   IPV6 解析无变化"	
-				dns_status=1
-				break
+				WGStatus
+				if [[ "$wg_status" == "active_exited" ]];then
+					dns_status=1
+				fi
 			fi
 		done
 	fi
