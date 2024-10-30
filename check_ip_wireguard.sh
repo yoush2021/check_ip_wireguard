@@ -25,7 +25,7 @@ function DomainDNS (){
 
 }
 function CheckIp (){
-	DnsStatus=0
+	dns_status=0
 	# 协议版本4
 	if [[ $DomainVersion == 4 ]];then
 		for (( i=1; i<=$Address4; i++ ))
@@ -33,7 +33,7 @@ function CheckIp (){
 			Inet4="$(ip a | grep 'inet' | grep -v 'inet6' | cut -d ' ' -f6 | cut -d '/' -f1 | awk NR=="$i"'{print $1}' )"
 			if [[ "$Domaindns4" == "$Inet4" ]];then
 				echo $time "   IPV4 解析无变化"
-				DnsStatus=1
+				dns_status=1
 			fi
 		done
 	
@@ -45,22 +45,39 @@ function CheckIp (){
 		
 			if [[ "$Domaindns6" == "$Inet6" ]];then
 				echo $time "   IPV6 解析无变化"	
-				DnsStatus=1
+				dns_status=1
 				break
 			fi
 		done
 	fi
 	if [[ "$DnsStatus" -eq 0 ]];then
 		# 重启wireguard
-		wg-quick down wg0
-		echo $time "   wg 服务停止！"
-		wg-quick up wg0
-		echo $time "   wg 服务启动！"
-
+		systemctl restart --force wg-quick@wg0.service
+		echo $time "   wg 服务重新启动中..."
+		WGStatus
+	
 	fi
 		
 
 }
+# wireguard 状态查询
+function WGStatus (){
+	wg_status=$(systemctl status wg-quick@wg0.service | awk '{print $1,$2,$3}' | grep "Active" | cut -d ':' -f2 | sed 's/(/_/g' | sed 's/)//g' | sed '
+	s/ //g')
+	if [[ "$wg_status" == "active_exited" ]];then
+		echo $time "   wg 服务启动运行中！"
+	elif [[ "$wg_status" == "inactive_dead" ]];then
+		echo $time "   wg 服务已停止！"
+	
+	#elif [[ "$wg_status" == "failed" ]];then
+	else
+		echo $wg_status
+		echo $time "   状态异常！！！"
+	fi
 
+
+}
+echo " ____________ "$time" _____________ "
 DomainDNS
 CheckIp
+echo " "
