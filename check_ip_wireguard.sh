@@ -1,7 +1,7 @@
 #/bin/bash
 
 # 域名解析获取
-Domain="bj6_jq.yoush.cc"
+Domain="ddns.domain.com"
 # 协议版本 4 或者6
 DomainVersion=6
 # wireguard 网卡名称（一般是wireguard配置文件名）
