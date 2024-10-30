@@ -1,9 +1,11 @@
 #/bin/bash
 
 # 域名解析获取
-Domain="ddns.domain.com"
+Domain="bj6_jq.yoush.cc"
 # 协议版本 4 或者6
 DomainVersion=6
+# wireguard 网卡名称（一般是wireguard配置文件名）
+NetCard="wg0"
 # IP数量
 Address4="$(ip a | grep 'inet' | grep -v 'inet6' | cut -d ' ' -f6 | cut -d '/' -f1 | wc -l )"
 Address6="$(ip a | grep 'inet6' | grep '24' | cut -d ' ' -f6 | cut -d '/' -f1 | wc -l)"
@@ -52,7 +54,7 @@ function CheckIp (){
 	fi
 	if [[ "$DnsStatus" -eq 0 ]];then
 		# 重启wireguard
-		systemctl restart --force wg-quick@wg0.service
+		systemctl restart --force wg-quick@"$NetCard".service
 		echo $time "   wg 服务重新启动中..."
 		WGStatus
 	
@@ -62,7 +64,7 @@ function CheckIp (){
 }
 # wireguard 状态查询
 function WGStatus (){
-	wg_status=$(systemctl status wg-quick@wg0.service | awk '{print $1,$2,$3}' | grep "Active" | cut -d ':' -f2 | sed 's/(/_/g' | sed 's/)//g' | sed '
+	wg_status=$(systemctl status wg-quick@"$NetCard".service | awk '{print $1,$2,$3}' | grep "Active" | cut -d ':' -f2 | sed 's/(/_/g' | sed 's/)//g' | sed '
 	s/ //g')
 	if [[ "$wg_status" == "active_exited" ]];then
 		echo $time "   wg 服务启动运行中！"
