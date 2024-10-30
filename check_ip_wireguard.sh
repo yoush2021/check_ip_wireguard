@@ -11,6 +11,12 @@ Address4="$(ip a | grep 'inet' | grep -v 'inet6' | cut -d ' ' -f6 | cut -d '/' -
 Address6="$(ip a | grep 'inet6' | grep '24' | cut -d ' ' -f6 | cut -d '/' -f1 | wc -l)"
 time=$( date )
 
+function Setup (){
+	if [[ -d "~/.log" ]];then
+		mkdir ~/.log
+	fi
+}
+
 function DomainDNS (){
 	# 检查工具否则安装
 	if [[ -z $(which dig) ]];then
@@ -82,6 +88,7 @@ function WGStatus (){
 
 }
 echo " ____________ "$time" _____________ "
+Steup
 DomainDNS
 CheckIp
 echo " "
